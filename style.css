@@ -1,0 +1,312 @@
+/* ===== Reset ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ===== Scene ===== */
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Sky ===== */
+.sky {
+  position: absolute;
+  inset: 0;
+  animation: sky-cycle 16s ease-in-out infinite;
+}
+
+@keyframes sky-cycle {
+  /* Night hold */
+  0%        { background: linear-gradient(180deg, #0a0e27 0%, #1a1a3e 40%, #2d1b4e 100%); }
+  /* Night → Day transition */
+  6.25%     { background: linear-gradient(180deg, #1a1040 0%, #4a2060 40%, #c85a30 100%); }
+  18.75%    { background: linear-gradient(180deg, #3a8bd6 0%, #7ec8e3 40%, #c9e4f2 100%); }
+  31.25%    { background: linear-gradient(180deg, #4a9fe5 0%, #87ceeb 40%, #e0f0ff 100%); }
+  /* Day hold */
+  50%       { background: linear-gradient(180deg, #4a9fe5 0%, #87ceeb 40%, #e0f0ff 100%); }
+  /* Day → Night transition */
+  56.25%    { background: linear-gradient(180deg, #3a8bd6 0%, #7ec8e3 40%, #c9e4f2 100%); }
+  68.75%    { background: linear-gradient(180deg, #1e2a5a 0%, #6b3a7a 40%, #e87040 100%); }
+  81.25%    { background: linear-gradient(180deg, #0f1535 0%, #1e1e50 40%, #3a2060 100%); }
+  /* Night hold */
+  100%      { background: linear-gradient(180deg, #0a0e27 0%, #1a1a3e 40%, #2d1b4e 100%); }
+}
+
+/* ===== Sun ===== */
+.sun {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: sun-move 16s ease-in-out infinite;
+}
+
+.sun-core {
+  position: absolute;
+  inset: 15px;
+  border-radius: 50%;
+  background: #ffe066;
+  box-shadow: 0 0 30px 10px rgba(255, 200, 50, 0.6);
+}
+
+.sun-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 200, 50, 0.3) 0%, transparent 70%);
+  animation: sun-pulse 3s ease-in-out infinite;
+}
+
+.sun-haze {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 160, 50, 0.15) 0%, transparent 60%);
+  animation: haze-warp 4s ease-in-out infinite alternate;
+}
+
+@keyframes sun-move {
+  0%        { top: 110%; opacity: 0; }
+  12.5%     { top: 70%;  opacity: 0.5; }
+  25%       { top: 20%;  opacity: 1; }
+  50%       { top: 15%;  opacity: 1; }
+  62.5%     { top: 20%;  opacity: 1; }
+  75%       { top: 70%;  opacity: 0.5; }
+  87.5%     { top: 110%; opacity: 0; }
+  100%      { top: 110%; opacity: 0; }
+}
+
+@keyframes sun-pulse {
+  0%, 100%  { transform: scale(1); opacity: 0.8; }
+  50%       { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes haze-warp {
+  0%   { transform: scale(1) rotate(0deg); opacity: 0.6; }
+  100% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+}
+
+/* ===== Moon ===== */
+.moon {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #e8e0d0;
+  box-shadow:
+    inset -10px -5px 0 #d4c8b0,
+    0 0 20px 5px rgba(200, 200, 255, 0.3),
+    0 0 60px 10px rgba(200, 200, 255, 0.1);
+  animation: moon-move 16s ease-in-out infinite;
+}
+
+@keyframes moon-move {
+  0%        { top: 12%;  opacity: 1; }
+  12.5%     { top: 70%;  opacity: 0.5; }
+  25%       { top: 110%; opacity: 0; }
+  75%       { top: 110%; opacity: 0; }
+  87.5%     { top: 70%;  opacity: 0.5; }
+  100%      { top: 12%;  opacity: 1; }
+}
+
+/* ===== Stars ===== */
+.stars {
+  position: absolute;
+  inset: 0;
+  animation: stars-fade 16s ease-in-out infinite;
+}
+
+@keyframes stars-fade {
+  0%        { opacity: 1; }
+  12.5%     { opacity: 0.5; }
+  25%       { opacity: 0; }
+  75%       { opacity: 0; }
+  87.5%     { opacity: 0.5; }
+  100%      { opacity: 1; }
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes twinkle {
+  0%, 100%  { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1; transform: scale(1.2); }
+}
+
+/* ===== Clouds ===== */
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0;
+  animation: cloud-drift-1 20s linear infinite, clouds-fade 16s ease-in-out infinite;
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud-1 {
+  width: 120px;
+  height: 35px;
+  top: 18%;
+  animation: cloud-drift-1 22s linear infinite, clouds-fade 16s ease-in-out infinite;
+}
+
+.cloud-1::before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 20px;
+}
+
+.cloud-1::after {
+  width: 40px;
+  height: 40px;
+  top: -18px;
+  left: 55px;
+}
+
+.cloud-2 {
+  width: 90px;
+  height: 28px;
+  top: 28%;
+  animation: cloud-drift-2 28s linear infinite, clouds-fade 16s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.cloud-2::before {
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  left: 15px;
+}
+
+.cloud-2::after {
+  width: 30px;
+  height: 30px;
+  top: -12px;
+  left: 45px;
+}
+
+.cloud-3 {
+  width: 100px;
+  height: 30px;
+  top: 35%;
+  animation: cloud-drift-3 25s linear infinite, clouds-fade 16s ease-in-out infinite;
+  animation-delay: 8s;
+}
+
+.cloud-3::before {
+  width: 45px;
+  height: 45px;
+  top: -22px;
+  left: 18px;
+}
+
+.cloud-3::after {
+  width: 35px;
+  height: 35px;
+  top: -15px;
+  left: 50px;
+}
+
+@keyframes cloud-drift-1 {
+  0%   { left: -200px; }
+  100% { left: calc(100% + 200px); }
+}
+
+@keyframes cloud-drift-2 {
+  0%   { left: -200px; }
+  100% { left: calc(100% + 200px); }
+}
+
+@keyframes cloud-drift-3 {
+  0%   { left: -200px; }
+  100% { left: calc(100% + 200px); }
+}
+
+@keyframes clouds-fade {
+  0%        { opacity: 0; }
+  18.75%    { opacity: 0; }
+  31.25%    { opacity: 0.85; }
+  50%       { opacity: 0.85; }
+  62.5%     { opacity: 0.6; }
+  75%       { opacity: 0; }
+  100%      { opacity: 0; }
+}
+
+/* ===== Meteors ===== */
+.meteors {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: stars-fade 16s ease-in-out infinite;
+}
+
+.meteor {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #fff;
+  border-radius: 50%;
+  animation: meteor-fly var(--m-duration) linear infinite;
+  animation-delay: var(--m-delay);
+  opacity: 0;
+}
+
+.meteor::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+  top: 0;
+  right: 0;
+  transform-origin: right center;
+  transform: rotate(0deg);
+}
+
+@keyframes meteor-fly {
+  0% {
+    transform: translate(0, 0) rotate(-35deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+  35% {
+    transform: translate(-300px, 250px) rotate(-35deg);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+                                          }
